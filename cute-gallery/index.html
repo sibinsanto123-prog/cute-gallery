@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AHANA AND EVANA</title>
+  <link rel="stylesheet" href="/src/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <h1 class="title">AHANA AND EVANA 🐰✨</h1>
+    <p class="subtitle">A tiny pastel gallery</p>
+    <div class="audio-controls">
+      <button id="audioToggle" aria-label="Pause music">⏸ Pause</button>
+      <span class="audio-hint">Tap to play/pause</span>
+    </div>
+    <audio id="bgAudio" src="/audio/background.wav" autoplay loop preload="auto"></audio>
+  </header>
+
+  <div id="floatingHearts" aria-hidden="true"></div>
+
+  <main>
+    <section class="gallery" id="gallery">
+      <figure class="card"><img src="/images/IMG_20260115_191927321.jpg" alt="Photo 1" data-index="0"><figcaption>🌷 Lovely 1</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260127_221219849.jpg" alt="Photo 2" data-index="1"><figcaption>🌹 Lovely 2</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260331_183949361.jpg" alt="Photo 3" data-index="2"><figcaption>🌼 Lovely 3</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260425_130835904.jpg" alt="Photo 4" data-index="3"><figcaption>🌸 Lovely 4</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260502_072127793.jpg" alt="Photo 5" data-index="4"><figcaption>🍓 Lovely 5</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260624_125558277.jpg" alt="Photo 6" data-index="5"><figcaption>💖 Lovely 6</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260624_125639392.jpg" alt="Photo 7" data-index="6"><figcaption>✨ Lovely 7</figcaption></figure>
+      <figure class="card"><img src="/images/IMG_20260624_125641621.jpg" alt="Photo 8" data-index="7"><figcaption>🌟 Lovely 8</figcaption></figure>
+    </section>
+
+    <section class="video-section">
+      <h2 class="section-title">Videos</h2>
+      <div class="video-grid">
+        <figure class="card video-card">
+          <div class="video-thumb" data-src="/videos/placeholder1.mp4" data-pause-bg="false">
+            <img src="/videos/video-poster1.jpg" alt="Video thumbnail 1" />
+            <div class="video-overlay"><span>▶</span></div>
+          </div>
+          <figcaption>🎬 Video 1</figcaption>
+        </figure>
+        <figure class="card video-card">
+          <div class="video-thumb" data-src="/videos/placeholder2.mp4" data-pause-bg="true">
+            <img src="/videos/video-poster2.jpg" alt="Video thumbnail 2" />
+            <div class="video-overlay"><span>▶</span></div>
+          </div>
+          <figcaption>🎬 Video 2</figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <div id="lightbox" class="lightbox hidden" aria-hidden="true">
+    <button class="lb-close" id="lbClose" aria-label="Close">×</button>
+    <button class="lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+    <div class="lb-content">
+      <img id="lbImage" class="lb-image" src="" alt="">
+      <video id="lbVideo" class="lb-video hidden" controls playsinline></video>
+      <p id="lbCaption" class="lb-caption"></p>
+    </div>
+    <button class="lb-next" id="lbNext" aria-label="Next">›</button>
+  </div>
+
+  <script type="module" src="/src/script.js"></script>
+</body>
+</html>
