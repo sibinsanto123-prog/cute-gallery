@@ -1,8 +1,6 @@
 const gallery = document.getElementById('gallery');
-const videoThumbs = Array.from(document.querySelectorAll('.video-thumb'));
 const lightbox = document.getElementById('lightbox');
 const lbImage = document.getElementById('lbImage');
-const lbVideo = document.getElementById('lbVideo');
 const lbCaption = document.getElementById('lbCaption');
 const lbClose = document.getElementById('lbClose');
 const lbPrev = document.getElementById('lbPrev');
@@ -12,16 +10,10 @@ const bgAudio = document.getElementById('bgAudio');
 
 let images = Array.from(gallery.querySelectorAll('img'));
 let current = 0;
-let activeVideo = false;
-let videoPausedAudio = false;
 
 function openLightbox(index) {
-  activeVideo = false;
   current = index;
   const img = images[current];
-  lbVideo.classList.add('hidden');
-  lbVideo.pause();
-  lbImage.classList.remove('hidden');
   lbImage.src = img.src;
   lbImage.alt = img.alt || '';
   lbCaption.textContent = img.closest('figure')?.querySelector('figcaption')?.textContent || '';
@@ -29,33 +21,9 @@ function openLightbox(index) {
   lightbox.setAttribute('aria-hidden', 'false');
 }
 
-function openVideoLightbox(src, poster, pauseBgAudio = false) {
-  activeVideo = true;
-  lbImage.classList.add('hidden');
-  lbVideo.classList.remove('hidden');
-  lbVideo.src = src;
-  if (poster) lbVideo.poster = poster;
-  lbCaption.textContent = '🎬 Video';
-  lightbox.classList.remove('hidden');
-  lightbox.setAttribute('aria-hidden', 'false');
-  if (pauseBgAudio) pauseBackgroundAudio();
-  lbVideo.play().catch(() => {});
-}
-
 function closeLightbox() {
   lightbox.classList.add('hidden');
   lightbox.setAttribute('aria-hidden', 'true');
-  if (activeVideo && lbVideo) {
-    lbVideo.pause();
-    lbVideo.currentTime = 0;
-  }
-  if (videoPausedAudio && bgAudio) {
-    bgAudio.play().then(() => {
-      if (audioToggle) audioToggle.textContent = '⏸ Pause';
-    }).catch(() => {});
-    videoPausedAudio = false;
-  }
-  activeVideo = false;
 }
 
 function showNext() {
@@ -72,15 +40,6 @@ images.forEach((img, idx) => {
   img.addEventListener('click', () => openLightbox(idx));
 });
 
-videoThumbs.forEach((thumb) => {
-  thumb.addEventListener('click', () => {
-    const src = thumb.dataset.src;
-    const poster = thumb.dataset.poster;
-    const pauseBgAudio = thumb.dataset.pauseBg === 'true';
-    if (src) openVideoLightbox(src, poster, pauseBgAudio);
-  });
-});
-
 lbClose.addEventListener('click', closeLightbox);
 lbNext.addEventListener('click', showNext);
 lbPrev.addEventListener('click', showPrev);
@@ -92,13 +51,6 @@ lightbox.addEventListener('click', (e) => {
 if (lbImage) {
   lbImage.addEventListener('click', () => {
     setTimeout(() => closeLightbox(), 80);
-  });
-}
-
-if (lbVideo) {
-  lbVideo.addEventListener('click', () => {
-    if (lbVideo.paused) lbVideo.play().catch(() => {});
-    else lbVideo.pause();
   });
 }
 
@@ -120,16 +72,6 @@ lightbox.addEventListener('touchend', (e) => {
   touchStartX = 0;
   touchStartY = 0;
 });
-
-function pauseBackgroundAudio() {
-  if (bgAudio && !bgAudio.paused) {
-    videoPausedAudio = true;
-    bgAudio.pause();
-    if (audioToggle) audioToggle.textContent = '▶ Play';
-  } else {
-    videoPausedAudio = false;
-  }
-}
 
 if (audioToggle && bgAudio) {
   bgAudio.play().then(() => {
