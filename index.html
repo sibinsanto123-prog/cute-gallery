@@ -31,6 +31,26 @@
       <figure class="card"><img src="/images/IMG_20260624_125641621.jpg" alt="Photo 8" data-index="7"><figcaption>🌟 Lovely 8</figcaption></figure>
     </section>
 
+    <section class="video-section">
+      <h2 class="section-title">Videos</h2>
+      <div class="video-grid">
+        <figure class="card video-card">
+          <div class="video-thumb" data-src="/videos/video1.mp4">
+            <div class="video-overlay"><span>▶</span></div>
+            <div class="video-thumb-label">Video 1</div>
+          </div>
+          <figcaption>🎬 Video 1</figcaption>
+        </figure>
+        <figure class="card video-card">
+          <div class="video-thumb" data-src="/videos/video2.mp4">
+            <div class="video-overlay"><span>▶</span></div>
+            <div class="video-thumb-label">Video 2</div>
+          </div>
+          <figcaption>🎬 Video 2</figcaption>
+        </figure>
+      </div>
+    </section>
+
   </main>
 
   <div id="lightbox" class="lightbox hidden" aria-hidden="true">
@@ -38,6 +58,7 @@
     <button class="lb-prev" id="lbPrev" aria-label="Previous">‹</button>
     <div class="lb-content">
       <img id="lbImage" class="lb-image" src="" alt="">
+      <video id="lbVideo" class="lb-video hidden" controls playsinline preload="metadata"></video>
       <p id="lbCaption" class="lb-caption"></p>
     </div>
     <button class="lb-next" id="lbNext" aria-label="Next">›</button>
