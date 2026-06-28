@@ -73,16 +73,45 @@ lightbox.addEventListener('touchend', (e) => {
   touchStartY = 0;
 });
 
-if (audioToggle && bgAudio) {
-  bgAudio.play().then(() => {
-    audioToggle.textContent = '⏸ Pause';
-  }).catch(() => {
-    audioToggle.textContent = bgAudio.paused ? '▶ Play' : '⏸ Pause';
-  });
+function addFirstInteractionUnmuteListener() {
+  const unmuteAudio = () => {
+    if (!bgAudio) return;
+    if (bgAudio.muted) {
+      bgAudio.muted = false;
+    }
+    window.removeEventListener('pointerdown', unmuteAudio);
+    window.removeEventListener('keydown', unmuteAudio);
+    window.removeEventListener('touchstart', unmuteAudio);
+  };
 
-  audioToggle.addEventListener('click', () => {
+  window.addEventListener('pointerdown', unmuteAudio, { once: true });
+  window.addEventListener('keydown', unmuteAudio, { once: true });
+  window.addEventListener('touchstart', unmuteAudio, { once: true });
+}
+
+async function initBackgroundAudio() {
+  if (!bgAudio || !audioToggle) return;
+
+  try {
+    await bgAudio.play();
+    audioToggle.textContent = '⏸ Pause';
+  } catch (err) {
+    bgAudio.muted = true;
+    try {
+      await bgAudio.play();
+      audioToggle.textContent = '⏸ Pause';
+      addFirstInteractionUnmuteListener();
+    } catch (error) {
+      audioToggle.textContent = bgAudio.paused ? '▶ Play' : '⏸ Pause';
+    }
+  }
+
+  audioToggle.addEventListener('click', async () => {
     if (bgAudio.paused) {
-      bgAudio.play().catch(() => {});
+      if (bgAudio.muted) {
+        bgAudio.muted = false;
+      }
+      await bgAudio.play().catch(() => {});
       audioToggle.textContent = '⏸ Pause';
     } else {
       bgAudio.pause();
@@ -90,6 +119,8 @@ if (audioToggle && bgAudio) {
     }
   });
 }
+
+initBackgroundAudio();
 
 document.addEventListener('keydown', (e) => {
   if (lightbox.classList.contains('hidden')) return;
